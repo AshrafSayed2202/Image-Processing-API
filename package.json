@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint './src/index.ts'",
-    "prettier": "prettier --config .prettierrc '*.js' --write",
+    "lint": "eslint ./dist/index.js",
+    "prettier": "prettier --config .prettierrc.json src/*.ts --write",
     "build": "npx tsc",
     "jasmine": "jasmine",
     "test": "npm run build && npm run jasmine",
-    "start":"nodemon src/index.ts"
+    "start": "nodemon src/index.ts"
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +17,7 @@
     "@types/express": "^4.17.14",
     "@types/jasmine": "^4.3.0",
     "@types/node": "^18.11.0",
+    "@types/sharp": "^0.31.0",
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.40.0",
     "eslint": "^8.25.0",
@@ -35,6 +36,7 @@
     "express": "^4.18.2",
     "jasmine": "^4.4.0",
     "jasmine-spec-reporter": "^7.0.0",
+    "sharp": "^0.31.1",
     "supertest": "^6.3.0"
   }
 }
