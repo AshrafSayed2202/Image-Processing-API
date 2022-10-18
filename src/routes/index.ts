@@ -6,6 +6,7 @@ routes.get('/',(req,res)=>{
     * {
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
     }
 
     body {
@@ -56,6 +57,10 @@ routes.get('/',(req,res)=>{
         height: 100px;
         border-radius: 50%;
         display: flex;
+        transition:0.3s;
+    }
+    #images .image:hover{
+        border-radius:0;
     }
 
     #images .image.active {
@@ -101,8 +106,8 @@ routes.get('/',(req,res)=>{
     </div>
     <div id="dimensions">
         <p>Type width and height</p>
-        <label for="height">Height: <input type="text" id="height" maxlength="4"></label>
         <label for="width">Width: <input type="text" id="width" maxlength="4"></label>
+        <label for="height">Height: <input type="text" id="height" maxlength="4"></label>
     </div>
     <button onclick="redirect()">Procces</button>
 </div>
@@ -116,7 +121,7 @@ routes.get('/',(req,res)=>{
         })
     })
     function redirect() {
-        if (document.getElementById('width').value != '' && document.getElementById('height').value != '') {
+        if (document.getElementById('width').value != '' && document.getElementById('height').value != '' && document.getElementById('width').value != 0 && document.getElementById('height').value != 0) {
             window.open(\`http://localhost:3000/api/images?filename=\${document.querySelector('.image.active').title}&width=\${document.getElementById('width').value}&height=\${document.getElementById('height').value}\`,"_self")
         } else {
             window.open(\`http://localhost:3000/api/images?filename=\${document.querySelector('.image.active').title}\`,"_self")
