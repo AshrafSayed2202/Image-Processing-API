@@ -4,7 +4,7 @@ async function checkImageExist(
   imagesFullPath: PathLike
 ): Promise<boolean> {
   if (!filename) {
-    return false
+    return false;
   }
   return (await getAllImageNames(imagesFullPath)).includes(filename as string)
 }
@@ -27,5 +27,5 @@ function checkDimensions(w: unknown, h: unknown) {
 export default {
   checkImageExist,
   getAllImageNames,
-  checkDimensions,
+  checkDimensions
 }

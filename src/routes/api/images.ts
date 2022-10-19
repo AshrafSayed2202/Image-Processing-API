@@ -20,6 +20,7 @@ images.get(
       imagesThumbPath,
       `${filename}_(${imageWidth}x${imageHeight}).jpg`
     )
+    // console.log(await fileChecker.checkImageExist('',imagesFullPath))
     if (!fileChecker.checkDimensions(imageWidth, imageHeight)) {
       res.send('Image Width and Height must be positive numbers')
       return
@@ -30,7 +31,6 @@ images.get(
       res.send("this image dosen't exist")
       return
     }
-
     resizeImage({
       source: imagePathFull,
       target: imagePathThumb,
