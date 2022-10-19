@@ -12,6 +12,10 @@ images.get(
     const filename = req.query.filename
     const imageWidth: unknown = req.query.width
     const imageHeight: unknown = req.query.height
+    if(isNaN(imageWidth as number) || isNaN(imageHeight as number)){
+      res.send('image width and height must be number (can\'t be string)')
+      return
+    }
     const imagePathFull: string = path.resolve(
       imagesFullPath,
       `${filename}.jpg`
@@ -20,14 +24,11 @@ images.get(
       imagesThumbPath,
       `${filename}_(${imageWidth}x${imageHeight}).jpg`
     )
-    // console.log(await fileChecker.checkImageExist('',imagesFullPath))
     if (!fileChecker.checkDimensions(imageWidth, imageHeight)) {
       res.send('Image Width and Height must be positive numbers')
       return
     }
-    if (await fileChecker.checkImageExist(filename, imagesFullPath)) {
-      console.log(`${imagesFullPath}${filename}.jpg is processing`)
-    } else {
+    if (!await fileChecker.checkImageExist(filename, imagesFullPath)) {
       res.send("this image dosen't exist")
       return
     }

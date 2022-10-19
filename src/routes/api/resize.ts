@@ -13,7 +13,7 @@ const resizeImage = async (
       .resize(parameters.width, parameters.height)
       .toFormat('jpeg')
       .toFile(parameters.target)
-    return null
+    return 'image resized successfully'
   } catch {
     return "this Image can't be Processed."
   }

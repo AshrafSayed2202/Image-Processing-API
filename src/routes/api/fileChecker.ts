@@ -17,7 +17,7 @@ async function getAllImageNames(imagesFullPath: PathLike): Promise<string[]> {
     return []
   }
 }
-function checkDimensions(w: unknown, h: unknown) {
+function checkDimensions(w: unknown, h: unknown):boolean {
   if ((w as number) < 0 || (h as number) < 0) {
     return false
   } else {
