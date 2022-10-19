@@ -1,6 +1,5 @@
 import resizeImage from "../../../routes/api/resize";
 import path from 'path'
-import { promises as fs } from "fs";
 const imagesFullPath = path.resolve(__dirname, '../../../../assets/images/full')
 const imagesThumbPath = path.resolve(__dirname, '../../../../assets/images/thumb')
 const imagePathFull: string = path.resolve(
