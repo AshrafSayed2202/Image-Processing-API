@@ -14,6 +14,11 @@ images.get(
     const filename = req.query.filename
     const imageWidth: unknown = req.query.width
     const imageHeight: unknown = req.query.height
+    // checking if the width and height are higher than 0 pixel
+    if(parseInt(imageWidth as string) <= 0 || parseInt(imageHeight as string) <= 0){
+      res.send(`image width and height must be Higher than 0 pixeL`)
+      return
+    }
     // checking if the width and height are numbers or strings or may be undefined
     if((isNaN(imageWidth as number) || isNaN(imageHeight as number)) && imageHeight != undefined && imageWidth != undefined){
       res.send(`image width and height must be number (can't be string)`)
