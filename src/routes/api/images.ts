@@ -12,8 +12,8 @@ images.get(
     const filename = req.query.filename
     const imageWidth: unknown = req.query.width
     const imageHeight: unknown = req.query.height
-    if(isNaN(imageWidth as number) || isNaN(imageHeight as number)){
-      res.send('image width and height must be number (can\'t be string)')
+    if((isNaN(imageWidth as number) || isNaN(imageHeight as number)) && imageHeight != undefined && imageWidth != undefined){
+      res.send(`image width and height must be number (can't be string)`)
       return
     }
     const imagePathFull: string = path.resolve(
