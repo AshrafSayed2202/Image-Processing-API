@@ -45,11 +45,6 @@ images.get(
       imagesThumbPath,
       `${filename}_(${imageWidth}x${imageHeight}).jpg`
     )
-    // get image from thumbs if its already exist
-    if(fs.existsSync(imagePathThumb)){
-      res.sendFile(imagePathThumb)
-      return
-    }
     // checking if the width and height are negative number
     if (!fileChecker.checkDimensions(imageWidth, imageHeight)) {
       res.send('Image Width and Height must be positive numbers')
@@ -60,37 +55,42 @@ images.get(
       res.send("this image dosen't exist")
       return
     }
-    // proccesing image with sharp
-    resizeImage({
-      source: imagePathFull,
-      target: imagePathThumb,
-      width: parseInt(imageWidth as string),
-      height: parseInt(imageHeight as string),
-    }).then(async (): Promise<void> => {
-      async function getThumbPath(): Promise<null | string> {
-        // don't continue if there is no filename
-        if (!req.query.filename) {
-          return null
+    // get image from thumbs if its already exist
+    if(fs.existsSync(imagePathThumb)){
+      res.sendFile(imagePathThumb)
+    }else{
+      // proccesing image with sharp
+      resizeImage({
+        source: imagePathFull,
+        target: imagePathThumb,
+        width: parseInt(imageWidth as string),
+        height: parseInt(imageHeight as string),
+      }).then(async (): Promise<void> => {
+        async function getThumbPath(): Promise<null | string> {
+          // don't continue if there is no filename
+          if (!req.query.filename) {
+            return null
+          }
+          // with width ane height or without ?
+          const imagePath: string =
+            req.query.width && req.query.height
+              ? path.resolve(imagePathThumb)
+              : path.resolve(imagePathFull)
+          try {
+            await fs.promises.access(imagePath)
+            return imagePath
+          } catch {
+            return null
+          }
         }
-        // with width ane height or without ?
-        const imagePath: string =
-          req.query.width && req.query.height
-            ? path.resolve(imagePathThumb)
-            : path.resolve(imagePathFull)
-        try {
-          await fs.promises.access(imagePath)
-          return imagePath
-        } catch {
-          return null
+        // use the function to display the image on browser
+        const imagePath: null | string = await getThumbPath()
+        // it is exist you can see it now
+        if (imagePath) {
+          res.sendFile(imagePath)
         }
-      }
-      // use the function to display the image on browser
-      const imagePath: null | string = await getThumbPath()
-      // it is exist you can see it now
-      if (imagePath) {
-        res.sendFile(imagePath)
-      }
-    })
+      })
+    }
   }
 )
 export default images
