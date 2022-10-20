@@ -15,7 +15,7 @@ const resizeImage = async (
       .resize(parameters.width, parameters.height)
       .toFormat('jpeg')
       .toFile(parameters.target)
-      // used return for unit testing
+    // used return for unit testing
     return 'image resized successfully'
   } catch {
     return "this Image can't be Processed."

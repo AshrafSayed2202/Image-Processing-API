@@ -2,8 +2,8 @@ import express from 'express'
 import images from './api/images'
 const routes = express.Router()
 routes.get('/api', (req, res) => {
-    // HTML & CSS & JavaScript UI
-    res.send(`<style>
+  // HTML & CSS & JavaScript UI
+  res.send(`<style>
     * {
         margin: 0;
         padding: 0;

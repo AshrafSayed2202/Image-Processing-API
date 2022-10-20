@@ -1,6 +1,6 @@
 import express from 'express'
 import path from 'path'
-import { promises as fs } from 'fs'
+import fs from 'fs'
 import resizeImage from './resize'
 import fileChecker from './fileChecker'
 const images = express.Router()
@@ -10,17 +10,28 @@ const imagesThumbPath = path.resolve(__dirname, '../../../assets/images/thumb')
 images.get(
   '/api/images',
   async (req: express.Request, res: express.Response): Promise<void> => {
+    // make directory if it isn't exist
+    if (!fs.existsSync(imagesThumbPath)) {
+      await fs.promises.mkdir(imagesThumbPath)
+    }
     // saving querys to variables
     const filename = req.query.filename
     const imageWidth: unknown = req.query.width
     const imageHeight: unknown = req.query.height
     // checking if the width and height are higher than 0 pixel
-    if(parseInt(imageWidth as string) <= 0 || parseInt(imageHeight as string) <= 0){
+    if (
+      parseInt(imageWidth as string) <= 0 ||
+      parseInt(imageHeight as string) <= 0
+    ) {
       res.send(`image width and height must be Higher than 0 pixeL`)
       return
     }
     // checking if the width and height are numbers or strings or may be undefined
-    if((isNaN(imageWidth as number) || isNaN(imageHeight as number)) && imageHeight != undefined && imageWidth != undefined){
+    if (
+      (isNaN(imageWidth as number) || isNaN(imageHeight as number)) &&
+      imageHeight != undefined &&
+      imageWidth != undefined
+    ) {
       res.send(`image width and height must be number (can't be string)`)
       return
     }
@@ -40,7 +51,7 @@ images.get(
       return
     }
     // checing image existence
-    if (!await fileChecker.checkImageExist(filename, imagesFullPath)) {
+    if (!(await fileChecker.checkImageExist(filename, imagesFullPath))) {
       res.send("this image dosen't exist")
       return
     }
@@ -62,7 +73,7 @@ images.get(
             ? path.resolve(imagePathThumb)
             : path.resolve(imagePathFull)
         try {
-          await fs.access(imagePath)
+          await fs.promises.access(imagePath)
           return imagePath
         } catch {
           return null
