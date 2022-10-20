@@ -45,6 +45,11 @@ images.get(
       imagesThumbPath,
       `${filename}_(${imageWidth}x${imageHeight}).jpg`
     )
+    // get image from thumbs if its already exist
+    if(fs.existsSync(imagePathThumb)){
+      res.sendFile(imagePathThumb)
+      return
+    }
     // checking if the width and height are negative number
     if (!fileChecker.checkDimensions(imageWidth, imageHeight)) {
       res.send('Image Width and Height must be positive numbers')
